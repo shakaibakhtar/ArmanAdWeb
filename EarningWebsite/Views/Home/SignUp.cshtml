@@ -1,0 +1,139 @@
+﻿@model EarningWebsite.ViewModels.SignUpVM
+
+@{
+    ViewBag.Title = "SignUp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    body {
+        background-color: #eee;
+    }
+
+    .container-fluid {
+        padding: 50px;
+    }
+
+    .container {
+        background-color: white;
+        padding: 50px;
+    }
+
+    #title {
+        font-family: 'Lobster', cursive;
+    }
+</style>
+
+<title>Sign up facundo farm & resort</title>
+
+<div class="container-fluid">
+    <div class="container">
+        <h2 class="text-center" id="title">Facundo farm and Resort</h2>
+        <p class="text-center">
+            <small id="passwordHelpInline" class="text-muted"> Developer: follow me on facebook <a href="https://www.facebook.com/JheanYu"> John niro yumang</a> inspired from <a href="https://p.w3layouts.com/">https://p.w3layouts.com/</a>.</small>
+        </p>
+        <hr>
+        <div class="row">
+            <div class="col-md-5">
+                @using (Html.BeginForm("SignUp", "Home", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-warning" })
+                    <fieldset>
+                        <p class="text-uppercase pull-center"> SIGN UP.</p>
+                        <div class="form-group">
+                            @Html.LabelFor(model=>model.name, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.name, new { htmlAttributes = new { placeholder = "John Doe", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.name, "", new { @class = "text-warning" })
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.last_name, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.last_name, new { htmlAttributes = new { placeholder = "John Doe", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.last_name, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { placeholder = "john.doe@email.com", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { placeholder = "password", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.ConfirmPassword, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.ConfirmPassword, new { htmlAttributes = new { placeholder = "confirm password", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.phone, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.phone, new { htmlAttributes = new { placeholder = "confirm password", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.phone, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.dob, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.TextBoxFor(model=>model.dob, String.Format("{0:d}", ""), new { @class = "form-control input-lg", type = "date" })
+                            @Html.ValidationMessageFor(model => model.dob, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @{
+                                List<SelectListItem> paymentMethods = new List<SelectListItem>();
+
+                                paymentMethods.Add(new SelectListItem { Text = "EasyPaisa", Value = "EasyPaisa" });
+
+                                paymentMethods.Add(new SelectListItem { Text = "Jazz Cash", Value = "JazzCash" });
+                            }
+                            @Html.LabelFor(model => model.payment_method, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.DropDownListFor(model => model.payment_method, paymentMethods, new { @class = "form-control input-lg" })
+                            @Html.ValidationMessageFor(model => model.payment_method, "", new { @class = "text-danger" })
+                        </div>
+                        @*<div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input">
+                                By Clicking register you're agree to our policy & terms
+                            </label>
+                        </div>*@
+                        <div>
+                            <input type="submit" class="btn btn-lg btn-primary" value="Register">
+                        </div>
+                    </fieldset>
+                                }
+                </div>
+
+                <div class="col-md-2">
+                    <!-------null------>
+                </div>
+
+                <div class="col-md-5">
+                    @using (Html.BeginForm("SignIn", "Home", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-warning" })
+                    <fieldset>
+                        <p class="text-uppercase"> Login using your account: </p>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.email, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.email, new { htmlAttributes = new { placeholder = "john.doe@email.com", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.email, "", new { @class = "text-warning" })
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.password, htmlAttributes: new { @class = "col-form-label" })
+                            @Html.EditorFor(model => model.password, new { htmlAttributes = new { placeholder = "password", @class = "form-control input-lg" } })
+                            @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-warning" })
+                        </div>
+                        <div>
+                            <input type="submit" class="btn btn-md" value="Sign In">
+                        </div>
+
+                    </fieldset>
+                    }
+                </div>
+            </div>
+        </div>
+        <p class="text-center">
+            <small id="passwordHelpInline" class="text-muted"> Developer:<a href="http://www.psau.edu.ph/"> Pampanga state agricultural university ?</a> BS. Information and technology students 2017 Credits: <a href="https://v4-alpha.getbootstrap.com/">boostrap v4.</a></small>
+        </p>
+    </div>

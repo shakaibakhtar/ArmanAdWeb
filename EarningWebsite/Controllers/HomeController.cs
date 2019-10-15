@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EarningWebsite.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,6 +9,7 @@ namespace EarningWebsite.Controllers
 {
     public class HomeController : Controller
     {
+        EarningWebsiteEntities db = new EarningWebsiteEntities();
         public ActionResult Index()
         {
             return View();
@@ -18,9 +20,61 @@ namespace EarningWebsite.Controllers
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignUp(SignUpVM user)
+        {
+            try
+            {
+                UserData userData = new UserData();
+                userData.name = user.name;
+                userData.last_name = user.last_name;
+                userData.email = user.email;
+                userData.password = user.password;
+                userData.phone = user.phone;
+                userData.dob = user.dob;
+                userData.payment_method = user.payment_method;
+
+                db.UserDatas.Add(userData);
+                db.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+                ViewBag.error = ex.Message;
+                return View("Error");
+            }
+            return RedirectToAction("Index");
+        }
+
         public ActionResult SignIn()
         {
-            return View();
+            return View("SignUp");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SignIn(SignInVM user)
+        {
+            try
+            {
+                var usr = db.UserDatas.SingleOrDefault(x =>
+               x.email == user.email && x.password == user.password);
+
+                if (usr != null)
+                {
+                    Session["UserName"] = usr.email;
+                    Session["UserType"] = usr.password;
+                    return RedirectToAction("Index");
+                }
+
+                return View("SignUp");
+            }
+            catch (Exception ex)
+            {
+                ViewBag.error = ex.Message;
+                return View("Error");
+            }
+            return RedirectToAction("Index");
         }
 
         public ActionResult About()
