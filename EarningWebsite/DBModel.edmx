@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="EarningWebsiteModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ImageData">
+          <Key>
+            <PropertyRef Name="imageName" />
+          </Key>
+          <Property Name="imageName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="imageText" Type="varchar(max)" Nullable="false" />
+        </EntityType>
         <EntityType Name="UserData">
           <Key>
             <PropertyRef Name="id" />
@@ -17,8 +24,10 @@
           <Property Name="phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="dob" Type="date" Nullable="false" />
           <Property Name="payment-method" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="score" Type="int" />
         </EntityType>
         <EntityContainer Name="EarningWebsiteModelStoreContainer">
+          <EntitySet Name="ImageData" EntityType="Self.ImageData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserData" EntityType="Self.UserData" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -37,10 +46,19 @@
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dob" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="score" Type="Int32" />
         </EntityType>
         <EntityContainer Name="EarningWebsiteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UserDatas" EntityType="Self.UserData" />
+          <EntitySet Name="ImageDatas" EntityType="EarningWebsiteModel.ImageData" />
         </EntityContainer>
+        <EntityType Name="ImageData">
+          <Key>
+            <PropertyRef Name="imageName" />
+          </Key>
+          <Property Name="imageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="imageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -50,6 +68,7 @@
           <EntitySetMapping Name="UserDatas">
             <EntityTypeMapping TypeName="EarningWebsiteModel.UserData">
               <MappingFragment StoreEntitySet="UserData">
+                <ScalarProperty Name="score" ColumnName="score" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="last_name" ColumnName="last-name" />
@@ -58,6 +77,14 @@
                 <ScalarProperty Name="phone" ColumnName="phone" />
                 <ScalarProperty Name="dob" ColumnName="dob" />
                 <ScalarProperty Name="payment_method" ColumnName="payment-method" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImageDatas">
+            <EntityTypeMapping TypeName="EarningWebsiteModel.ImageData">
+              <MappingFragment StoreEntitySet="ImageData">
+                <ScalarProperty Name="imageText" ColumnName="imageText" />
+                <ScalarProperty Name="imageName" ColumnName="imageName" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

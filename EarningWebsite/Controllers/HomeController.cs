@@ -1,8 +1,10 @@
 ﻿using EarningWebsite.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Hosting;
 using System.Web.Mvc;
 
 namespace EarningWebsite.Controllers
@@ -57,13 +59,13 @@ namespace EarningWebsite.Controllers
         {
             try
             {
-                var usr = db.UserDatas.SingleOrDefault(x =>
-               x.email == user.email && x.password == user.password);
+                var usr = db.UserDatas.SingleOrDefault(x => x.email == user.email && x.password == user.password);
 
                 if (usr != null)
                 {
+                    Session["UserID"] = usr.id;
                     Session["UserName"] = usr.email;
-                    Session["UserType"] = usr.password;
+                    Session["UserPassword"] = usr.password;
                     return RedirectToAction("Index");
                 }
 
@@ -75,6 +77,47 @@ namespace EarningWebsite.Controllers
                 return View("Error");
             }
             return RedirectToAction("Index");
+        }
+
+        public ActionResult LoadImage()
+        {
+            string dir = HostingEnvironment.ApplicationPhysicalPath + "/Images/";
+            string[] files;
+            int numFiles;
+            files = Directory.GetFiles(dir);
+            numFiles = files.Length;
+
+            string fileName = new Random().Next(1, numFiles).ToString();
+            ViewBag.imageName = fileName + ".jpg";
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DataEntry(DataEntryVM image)
+        {
+            try
+            {
+                string name = ViewBag.imageName;
+                var img = db.ImageDatas.FirstOrDefault(x => x.imageName == name);
+                if (image.imageText.Equals(img.imageText))
+                {
+                    var usr = db.UserDatas.FirstOrDefault(x=>x.id == (int)Session["id"]);
+                    usr.score++;
+                    db.SaveChanges();
+                }
+                else
+                {
+                    return RedirectToAction("LoadImage");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return RedirectToAction("LoadImage");
+            }
+            return View();
         }
 
         public ActionResult About()

@@ -12,16 +12,9 @@ namespace EarningWebsite
     using System;
     using System.Collections.Generic;
     
-    public partial class UserData
+    public partial class ImageData
     {
-        public int id { get; set; }
-        public string name { get; set; }
-        public string last_name { get; set; }
-        public string email { get; set; }
-        public string password { get; set; }
-        public string phone { get; set; }
-        public System.DateTime dob { get; set; }
-        public string payment_method { get; set; }
-        public Nullable<int> score { get; set; }
+        public string imageName { get; set; }
+        public string imageText { get; set; }
     }
 }
