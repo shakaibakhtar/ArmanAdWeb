@@ -24,7 +24,7 @@
           <Property Name="phone" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="dob" Type="date" Nullable="false" />
           <Property Name="payment-method" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="score" Type="int" />
+          <Property Name="score" Type="int" Nullable="false" />
         </EntityType>
         <EntityContainer Name="EarningWebsiteModelStoreContainer">
           <EntitySet Name="ImageData" EntityType="Self.ImageData" Schema="dbo" store:Type="Tables" />
@@ -46,7 +46,7 @@
           <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="dob" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="payment_method" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="score" Type="Int32" />
+          <Property Name="score" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityContainer Name="EarningWebsiteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UserDatas" EntityType="Self.UserData" />

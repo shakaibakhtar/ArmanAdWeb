@@ -22,6 +22,6 @@ namespace EarningWebsite
         public string phone { get; set; }
         public System.DateTime dob { get; set; }
         public string payment_method { get; set; }
-        public Nullable<int> score { get; set; }
+        public int score { get; set; }
     }
 }

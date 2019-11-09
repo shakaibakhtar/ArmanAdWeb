@@ -14,7 +14,19 @@ namespace EarningWebsite.Controllers
         EarningWebsiteEntities db = new EarningWebsiteEntities();
         public ActionResult Index()
         {
-            return View();
+            try
+            {
+                if (Session["UserScore"].ToString() != null)
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("SignIn");
         }
 
         public ActionResult SignUp()
@@ -64,8 +76,10 @@ namespace EarningWebsite.Controllers
                 if (usr != null)
                 {
                     Session["UserID"] = usr.id;
-                    Session["UserName"] = usr.email;
+                    Session["UserName"] = usr.name;
                     Session["UserPassword"] = usr.password;
+                    Session["UserScore"] = usr.score;
+
                     return RedirectToAction("Index");
                 }
 
@@ -81,16 +95,27 @@ namespace EarningWebsite.Controllers
 
         public ActionResult LoadImage()
         {
-            string dir = HostingEnvironment.ApplicationPhysicalPath + "/Images/";
-            string[] files;
-            int numFiles;
-            files = Directory.GetFiles(dir);
-            numFiles = files.Length;
+            try
+            {
+                if (Session["UserName"].ToString() != null)
+                {
+                    string dir = HostingEnvironment.ApplicationPhysicalPath + "/Images/";
+                    string[] files;
+                    int numFiles;
+                    files = Directory.GetFiles(dir);
+                    numFiles = files.Length;
 
-            string fileName = new Random().Next(1, numFiles).ToString();
-            ViewBag.imageName = fileName + ".jpg";
+                    string fileName = new Random().Next(1, numFiles).ToString();
+                    ViewBag.imageName = fileName + ".jpg";
 
-            return View();
+                    return View();
+                }
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return RedirectToAction("SignIn");
         }
 
         [HttpPost]
@@ -99,17 +124,20 @@ namespace EarningWebsite.Controllers
         {
             try
             {
-                string name = ViewBag.imageName;
-                var img = db.ImageDatas.FirstOrDefault(x => x.imageName == name);
-                if (image.imageText.Equals(img.imageText))
+                if (Session["UserName"].ToString() != null)
                 {
-                    var usr = db.UserDatas.FirstOrDefault(x=>x.id == (int)Session["id"]);
-                    usr.score++;
-                    db.SaveChanges();
-                }
-                else
-                {
-                    return RedirectToAction("LoadImage");
+                    string name = ViewBag.imageName;
+                    var img = db.ImageDatas.FirstOrDefault(x => x.imageName == name);
+                    if (image.imageText.Equals(img.imageText))
+                    {
+                        var usr = db.UserDatas.FirstOrDefault(x => x.id == (int)Session["id"]);
+                        usr.score += 10;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        return RedirectToAction("LoadImage");
+                    }
                 }
             }
             catch (Exception ex)
@@ -118,6 +146,14 @@ namespace EarningWebsite.Controllers
                 return RedirectToAction("LoadImage");
             }
             return View();
+        }
+
+        public ActionResult SignOut()
+        {
+            Session.Abandon();
+            Session.Clear();
+
+            return RedirectToAction("SignIn");
         }
 
         public ActionResult About()
