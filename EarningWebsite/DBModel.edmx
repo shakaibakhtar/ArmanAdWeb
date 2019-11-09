@@ -26,9 +26,20 @@
           <Property Name="payment-method" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="score" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="Withdraw">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="phone" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="amount" Type="int" Nullable="false" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="EarningWebsiteModelStoreContainer">
           <EntitySet Name="ImageData" EntityType="Self.ImageData" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserData" EntityType="Self.UserData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Withdraw" EntityType="Self.Withdraw" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -51,6 +62,7 @@
         <EntityContainer Name="EarningWebsiteEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="UserDatas" EntityType="Self.UserData" />
           <EntitySet Name="ImageDatas" EntityType="EarningWebsiteModel.ImageData" />
+          <EntitySet Name="Withdraws" EntityType="EarningWebsiteModel.Withdraw" />
         </EntityContainer>
         <EntityType Name="ImageData">
           <Key>
@@ -58,6 +70,16 @@
           </Key>
           <Property Name="imageName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="imageText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="Withdraw">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="amount" Type="Int32" Nullable="false" />
+          <Property Name="date" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -85,6 +107,17 @@
               <MappingFragment StoreEntitySet="ImageData">
                 <ScalarProperty Name="imageText" ColumnName="imageText" />
                 <ScalarProperty Name="imageName" ColumnName="imageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Withdraws">
+            <EntityTypeMapping TypeName="EarningWebsiteModel.Withdraw">
+              <MappingFragment StoreEntitySet="Withdraw">
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="amount" ColumnName="amount" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

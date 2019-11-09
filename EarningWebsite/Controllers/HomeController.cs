@@ -77,7 +77,7 @@ namespace EarningWebsite.Controllers
                 {
                     Session["UserID"] = usr.id;
                     Session["UserName"] = usr.name;
-                    Session["UserPassword"] = usr.password;
+                    Session["UserPhone"] = usr.phone;
                     Session["UserScore"] = usr.score;
 
                     return RedirectToAction("Index");
@@ -156,16 +156,50 @@ namespace EarningWebsite.Controllers
             return RedirectToAction("SignIn");
         }
 
-        public ActionResult About()
+        public ActionResult Withdraw()
         {
-            ViewBag.Message = "Your application description page.";
+            try
+            {
+                if (Session["UserID"] != null)
+                {
+                    WithdrawVM w = new WithdrawVM();
+                    w.UserID = Convert.ToInt32(Session["UserID"]);
+                    w.UserName = Session["UserName"].ToString();
+                    w.UserScore = Convert.ToInt32(Session["UserScore"]);
 
-            return View();
+                    return View(w);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return RedirectToAction("SignIn");
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Withdraw(WithdrawVM vM)
         {
-            ViewBag.Message = "Your contact page.";
+            try
+            {
+                if (Session["UserName"] != null)
+                {
+                    Withdraw withdraw = new Withdraw();
+
+                    withdraw.UserID = Convert.ToInt32(Session["UserID"]);
+                    withdraw.phone = Session["UserPhone"].ToString();
+                    withdraw.date = DateTime.Now;
+                    withdraw.amount = vM.PointsToWithdraw;
+
+                    db.Withdraws.Add(withdraw);
+
+                    return RedirectToAction("Index");
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
 
             return View();
         }

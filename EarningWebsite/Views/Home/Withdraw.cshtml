@@ -1,0 +1,40 @@
+﻿@model EarningWebsite.ViewModels.WithdrawVM
+
+@{
+    ViewBag.Title = "Withdraw";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm("Withdraw", "Home", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-warning" })
+    <fieldset>
+        <p class="text-uppercase pull-center"> Withdraw</p>
+        <div class="form-group">
+            @Html.LabelFor(model => model.UserID, Model.UserName, new { @class = "form-control" })
+            @Html.LabelFor(model => model.UserScore, Model.UserScore.ToString(), new { @class = "form-control" })
+            
+            @{
+                var list = new List<SelectListItem>
+                {
+                    new SelectListItem{ Text="100", Value = "10" },
+                    new SelectListItem{ Text="200", Value = "20" },
+                    new SelectListItem{ Text="300", Value = "30" }
+                };
+            }
+
+            @Html.DropDownListFor(x => x.PointsToWithdraw, list as IEnumerable<SelectListItem>)
+        </div>
+
+        @*<div class="form-check">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input">
+                    By Clicking register you're agree to our policy & terms
+                </label>
+            </div>*@
+        <div>
+            <input type="submit" class="btn btn-lg btn-primary" value="Withdraw">
+        </div>
+    </fieldset>
+}

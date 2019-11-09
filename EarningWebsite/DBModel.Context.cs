@@ -27,5 +27,6 @@ namespace EarningWebsite
     
         public DbSet<UserData> UserDatas { get; set; }
         public DbSet<ImageData> ImageDatas { get; set; }
+        public DbSet<Withdraw> Withdraws { get; set; }
     }
 }

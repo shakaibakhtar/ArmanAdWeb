@@ -157,6 +157,10 @@
     </Compile>
     <Compile Include="ViewModels\DataEntryVM.cs" />
     <Compile Include="ViewModels\SignUpVM.cs" />
+    <Compile Include="ViewModels\WithdrawVM.cs" />
+    <Compile Include="Withdraw.cs">
+      <DependentUpon>DBModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -215,6 +219,7 @@
     <Content Include="Views\Home\SignUp.cshtml" />
     <Content Include="Views\Upload\UploadDocument.cshtml" />
     <Content Include="Views\Home\LoadImage.cshtml" />
+    <Content Include="Views\Home\Withdraw.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

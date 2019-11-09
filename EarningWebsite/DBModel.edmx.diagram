@@ -7,6 +7,7 @@
       <Diagram DiagramId="975e94f5e95a4e9e8ccfcdae180bb07c" Name="Diagram1">
         <EntityTypeShape EntityType="EarningWebsiteModel.UserData" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="EarningWebsiteModel.ImageData" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="EarningWebsiteModel.Withdraw" Width="1.5" PointX="3.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
